@@ -19,6 +19,7 @@
 extern keymap_config_t keymap_config;
 
 #include "../../../../k8_pro.h"
+#include "process_combo.h"
 
 // clang-format off
 enum layers{
@@ -98,3 +99,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 };
+
+enum combo_events {
+    EM_WORK_EMAIL,
+    EM_PERSONAL_EMAIL,
+    COMBO_LENGTH
+};
+const uint16_t COMBO_LEN = COMBO_LENGTH;
+
+const uint16_t PROGMEM work_email_combo[] = {KC_E, KC_H, COMBO_END};
+const uint16_t PROGMEM personal_email_combo[] = {KC_E, KC_O, COMBO_END};
+
+combo_t key_combos[] = {
+    [EM_WORK_EMAIL] = COMBO_ACTION(work_email_combo),
+    [EM_PERSONAL_EMAIL] = COMBO_ACTION(personal_email_combo)
+};
+/* COMBO_ACTION(x) is the same as COMBO(x, KC_NO) */
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    switch(combo_index) {
+        case EM_WORK_EMAIL:
+            if (pressed) {
+                SEND_STRING("me@work.com");
+            }
+            break;
+
+        case EM_PERSONAL_EMAIL:
+            if (pressed) {
+                SEND_STRING("me@home.com");
+            }
+            break;
+    }
+}
