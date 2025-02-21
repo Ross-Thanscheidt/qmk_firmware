@@ -16,12 +16,6 @@
 
 #pragma once
 
-/* Activate Caps Word by double tapping Left Shift */
-#define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
-
-/* Turn on NKRO by default */
-#define FORCE_NKRO
-
 /* Turn off effects when suspended */
 #define RGB_DISABLE_WHEN_USB_SUSPENDED
 #define LED_DISABLE_WHEN_USB_SUSPENDED
