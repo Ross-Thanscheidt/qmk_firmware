@@ -78,9 +78,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [NAV] = LAYOUT_tkl_ansi(
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,                KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
-     KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
-     KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_PGDN,  KC_TRNS,  KC_LEFT,  KC_DOWN, KC_UP,        KC_RGHT,   KC_TRNS,      KC_TRNS,                  KC_TRNS,
-     KC_TRNS,                   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_PGUP,  KC_TRNS, KC_TRNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,                  KC_TRNS,            KC_TRNS,
+     KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_INS,       KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
+     KC_TRNS,         KC_HOME,  KC_TRNS,  KC_DEL,   KC_PGDN,  KC_TRNS,  KC_LEFT,  KC_DOWN, KC_UP,        KC_RGHT,   KC_TRNS,      KC_TRNS,                  KC_TRNS,
+     KC_TRNS,                   KC_END,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_PGUP,  KC_TRNS, KC_TRNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,                  KC_TRNS,            KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,                                KC_TRNS,                                    KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS)
 
 };
