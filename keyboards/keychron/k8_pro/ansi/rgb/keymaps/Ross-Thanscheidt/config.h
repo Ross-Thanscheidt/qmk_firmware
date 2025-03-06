@@ -27,3 +27,6 @@
 
 /* Activate Caps Word by double tapping Left Shift */
 #define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
+
+/* Disable the parts of factory_test that conflict with this keyboard customizations - initially rgb_matrix_indicators_user() */
+#define DISABLE_FACTORY_TEST

@@ -85,9 +85,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+bool shift_pressed = false;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
+        case KC_LSFT:
+        case KC_RSFT:
+            if (record->event.pressed) {
+                shift_pressed = true;
+            }
+            else {
+                shift_pressed = false;
+            }
+            break;
+
         case CKC_MAC:
             if (record->event.pressed) {
                 SEND_STRING("Mac");
@@ -150,4 +162,33 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 
 void keyboard_post_init_user(void) {
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+}
+
+bool rgb_matrix_indicators_user(void) {
+
+    for (uint8_t layer = 0; layer < DYNAMIC_KEYMAP_LAYER_COUNT; layer++)
+    {
+        if (layer_state_is(layer)) {
+            rgb_matrix_set_color(17 + layer, RGB_GREEN);
+        }
+
+        if ((host_keyboard_led_state().caps_lock && !shift_pressed) ||
+            (!host_keyboard_led_state().caps_lock && shift_pressed) ||
+            is_caps_word_on()) {
+
+            for (uint8_t i = 34; i <= 43; i++) {
+                rgb_matrix_set_color(i, RGB_RED);
+            }
+
+            for (uint8_t i = 50; i <= 59; i++) {
+                rgb_matrix_set_color(i, RGB_RED);
+            }
+
+            for (uint8_t i = 63; i <= 74; i++) {
+                rgb_matrix_set_color(i, RGB_RED);
+            }
+        }
+    }
+
+    return true;
 }
