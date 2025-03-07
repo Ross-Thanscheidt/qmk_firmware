@@ -68,11 +68,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TRNS,         KC_TRNS,  KC_TRNS,                                KC_TRNS,                                    KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  RGB_RMOD, RGB_TOG,  RGB_MOD),
 
 [KEYPAD] = LAYOUT_tkl_ansi(
-     KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_NUM,   KC_PSLS,  KC_PAST, KC_MINUS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,                KC_TRNS,  KC_TRNS,  KC_TRNS,
+     KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_NUM,   KC_PSLS,  KC_PAST, KC_PMNS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,                KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  CKC_KP,   KC_TRNS,  KC_TRNS,  KC_KP_7, KC_KP_8,      KC_KP_9,   KC_PPLS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_KP_4, KC_KP_5,      KC_KP_6,   KC_PPLS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_KP_1, KC_KP_2,      KC_KP_3,   KC_PENT,      KC_TRNS,                  KC_TRNS,
-     KC_TRNS,                   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_KP_0,      KC_KP_0,   KC_PDOT,      KC_PENT,                  KC_TRNS,            KC_TRNS,
+     KC_TRNS,                   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS,      KC_KP_0,   KC_PDOT,      KC_PENT,                  KC_TRNS,            KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,                                KC_TRNS,                                    KC_TRNS,      KC_TRNS,    DF(WIN_BASE), KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS),
 
 [NAV] = LAYOUT_tkl_ansi(
@@ -86,6 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool shift_pressed = false;
+bool num_lock_on = true;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -97,6 +98,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             else {
                 shift_pressed = false;
+            }
+            break;
+
+        case KC_NUM:
+            if (record->event.pressed) {
+                num_lock_on = !num_lock_on;
             }
             break;
 
@@ -164,28 +171,67 @@ void keyboard_post_init_user(void) {
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
 }
 
-bool rgb_matrix_indicators_user(void) {
+bool rgb_matrix_indicators_user(void)
+{
 
     for (uint8_t layer = 0; layer < DYNAMIC_KEYMAP_LAYER_COUNT; layer++)
     {
-        if (layer_state_is(layer)) {
+        if (layer_state_cmp(layer_state | default_layer_state, layer)) {
             rgb_matrix_set_color(17 + layer, RGB_GREEN);
         }
+    }
 
-        if ((host_keyboard_led_state().caps_lock && !shift_pressed) ||
-            (!host_keyboard_led_state().caps_lock && shift_pressed) ||
-            is_caps_word_on()) {
+    if ((host_keyboard_led_state().caps_lock && !shift_pressed) ||
+        (!host_keyboard_led_state().caps_lock && shift_pressed) ||
+        is_caps_word_on())
+    {
 
-            for (uint8_t i = 34; i <= 43; i++) {
-                rgb_matrix_set_color(i, RGB_RED);
+        for (uint8_t row = 2; row <= MATRIX_ROWS; row++)
+        {
+            for (uint8_t col = 0; col < MATRIX_COLS; col++)
+            {
+                uint8_t index = g_led_config.matrix_co[row][col];
+                uint8_t keycode = keymap_key_to_keycode(get_highest_layer(layer_state), (keypos_t){col, row});
+
+                if (index != NO_LED && ((keycode >= KC_A && keycode <= KC_Z) || keycode == KC_LSFT || keycode == KC_RSFT))
+                {
+                    rgb_matrix_set_color(index, RGB_RED);
+                }
             }
+        }
+    }
 
-            for (uint8_t i = 50; i <= 59; i++) {
-                rgb_matrix_set_color(i, RGB_RED);
-            }
+    if (get_highest_layer(layer_state | default_layer_state) == KEYPAD)
+    {
+        for (uint8_t row = 0; row <= MATRIX_ROWS; row++)
+        {
+            for (uint8_t col = 0; col < MATRIX_COLS; col++)
+            {
+                uint8_t index = g_led_config.matrix_co[row][col];
+                uint8_t keycode = keymap_key_to_keycode(KEYPAD, (keypos_t){col, row});
 
-            for (uint8_t i = 63; i <= 74; i++) {
-                rgb_matrix_set_color(i, RGB_RED);
+                if (index != NO_LED)
+                {
+                    if (keycode >= KC_KP_1 && keycode <= KC_KP_0)
+                    {
+                        if (num_lock_on)
+                        {
+                            rgb_matrix_set_color(index, RGB_GREEN);
+                        }
+                        else
+                        {
+                            rgb_matrix_set_color(index, RGB_YELLOW);
+                        }
+                    }
+                    else if (keycode == KC_PENT || keycode == KC_NUM)
+                    {
+                        rgb_matrix_set_color(index, RGB_RED);
+                    }
+                    else if (keycode >= KC_NUM_LOCK && keycode <= KC_KP_DOT)
+                    {
+                        rgb_matrix_set_color(index, RGB_MAGENTA);
+                    }
+                }
             }
         }
     }
