@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TRNS,         KC_TRNS,  KC_TRNS,                                KC_TRNS,                                    KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  RGB_RMOD, RGB_TOG,  RGB_MOD),
 
 [KEYPAD] = LAYOUT_tkl_ansi(
-     KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_NUM,   KC_PSLS,  KC_PAST, KC_PMNS,     KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,                KC_TRNS,  KC_TRNS,  KC_TRNS,
+     KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_NUM,   KC_PSLS,  KC_PAST, KC_PMNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,                KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  CKC_KP,   KC_TRNS,  KC_TRNS,  KC_KP_7, KC_KP_8,      KC_KP_9,   KC_PPLS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_KP_4, KC_KP_5,      KC_KP_6,   KC_PPLS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_KP_1, KC_KP_2,      KC_KP_3,   KC_PENT,      KC_TRNS,                  KC_TRNS,
@@ -79,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,                KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_INS,       KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
-     KC_TRNS,         KC_HOME,  KC_TRNS,  KC_DEL,   KC_PGDN,  KC_TRNS,  KC_LEFT,  KC_DOWN, KC_UP,        KC_RGHT,   KC_TRNS,      KC_TRNS,                  KC_TRNS,
+     KC_TRNS,         KC_HOME,  KC_NO,    KC_DEL,   KC_PGDN,  KC_TRNS,  KC_LEFT,  KC_DOWN, KC_UP,        KC_RGHT,   KC_TRNS,      KC_TRNS,                  KC_TRNS,
      KC_TRNS,                   KC_END,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_PGUP,  KC_TRNS, KC_TRNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,                  KC_TRNS,            KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,                                KC_TRNS,                                    KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS)
 
