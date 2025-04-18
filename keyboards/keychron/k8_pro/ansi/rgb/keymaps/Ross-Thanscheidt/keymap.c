@@ -31,7 +31,17 @@ enum custom_keycodes {
     CKC_MAC = NEW_SAFE_RANGE,
     CKC_PC,
     CKC_KP,
-    CKC_TERM
+    CKC_TERM,
+    CKC_WT1,
+    CKC_WT2,
+    CKC_WT3,
+    CKC_WT4,
+    CKC_WT5,
+    CKC_WT6,
+    CKC_WT7,
+    CKC_WT8,
+    CKC_WT9,
+    CKC_WT0
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -76,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TRNS,         KC_TRNS,  KC_TRNS,                                KC_TRNS,                                    KC_TRNS,      KC_TRNS,    DF(WIN_BASE), KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS),
 
 [NAV] = LAYOUT_tkl_ansi(
-     KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,                KC_TRNS,  KC_TRNS,  KC_TRNS,
+     KC_TRNS,         CKC_WT1,  CKC_WT2,  CKC_WT3,  CKC_WT4,  CKC_WT5,  CKC_WT6,  CKC_WT7, CKC_WT8,      CKC_WT9,   CKC_WT0,      KC_TRNS,    KC_TRNS,                KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS,      KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_INS,       KC_TRNS,   KC_TRNS,      KC_TRNS,    KC_TRNS,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,         KC_HOME,  KC_NO,    KC_DEL,   KC_PGDN,  KC_TRNS,  KC_LEFT,  KC_DOWN, KC_UP,        KC_RGHT,   KC_TRNS,      KC_TRNS,                  KC_TRNS,
@@ -128,6 +138,66 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case CKC_TERM:
             if (record->event.pressed) {
                 SEND_STRING(SS_LWIN("r") SS_DELAY(500) "WT" SS_TAP(X_ENT));
+            }
+            break;
+
+        case CKC_WT1:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LWIN("r") SS_DELAY(500) "%WT% \"WT_1%\"" SS_TAP(X_ENT));
+            }
+            break;
+
+        case CKC_WT2:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LWIN("r") SS_DELAY(500) "%WT% \"WT_2%\"" SS_TAP(X_ENT));
+            }
+            break;
+
+        case CKC_WT3:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LWIN("r") SS_DELAY(500) "%WT% \"WT_3%\"" SS_TAP(X_ENT));
+            }
+            break;
+
+        case CKC_WT4:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LWIN("r") SS_DELAY(500) "%WT% \"WT_4%\"" SS_TAP(X_ENT));
+            }
+            break;
+
+        case CKC_WT5:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LWIN("r") SS_DELAY(500) "%WT% \"WT_5%\"" SS_TAP(X_ENT));
+            }
+            break;
+
+        case CKC_WT6:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LWIN("r") SS_DELAY(500) "%WT% \"WT_6%\"" SS_TAP(X_ENT));
+            }
+            break;
+
+        case CKC_WT7:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LWIN("r") SS_DELAY(500) "%WT% \"WT_7%\"" SS_TAP(X_ENT));
+            }
+            break;
+
+        case CKC_WT8:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LWIN("r") SS_DELAY(500) "%WT% \"WT_8%\"" SS_TAP(X_ENT));
+            }
+            break;
+
+        case CKC_WT9:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LWIN("r") SS_DELAY(500) "%WT% \"WT_9%\"" SS_TAP(X_ENT));
+            }
+            break;
+
+        case CKC_WT0:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LWIN("r") SS_DELAY(500) "%WT% \"WT_0%\"" SS_TAP(X_ENT));
             }
             break;
     }
