@@ -269,6 +269,15 @@ bool rgb_matrix_indicators_user(void)
         }
     }
 
+    if (readPin(BT_MODE_SELECT_PIN) == 0)
+    {
+        rgb_matrix_set_color(23, RGB_GREEN);
+    }
+    else if (readPin(P2P4_MODE_SELECT_PIN) == 0)
+    {
+        rgb_matrix_set_color(25, RGB_GREEN);
+    }
+
     if ((host_keyboard_led_state().caps_lock && !shift_pressed) ||
         (!host_keyboard_led_state().caps_lock && shift_pressed) ||
         is_caps_word_on())
