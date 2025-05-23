@@ -15,6 +15,7 @@
  */
 
 #include QMK_KEYBOARD_H
+#include "transport.h"
 #include "keychron_common.h"
 #include "process_combo.h"
 
@@ -269,13 +270,36 @@ bool rgb_matrix_indicators_user(void)
         }
     }
 
-    if (readPin(BT_MODE_SELECT_PIN) == 0)
+    bool modeIsBT = readPin(BT_MODE_SELECT_PIN) == 0;
+    bool transportIsBT = get_transport() == TRANSPORT_BLUETOOTH;
+
+    if (modeIsBT && transportIsBT)
     {
         rgb_matrix_set_color(23, RGB_GREEN);
     }
-    else if (readPin(P2P4_MODE_SELECT_PIN) == 0)
+    else if (modeIsBT)
+    {
+        rgb_matrix_set_color(23, RGB_YELLOW);
+    }
+    else if (transportIsBT)
+    {
+        rgb_matrix_set_color(23, RGB_RED);
+    }
+
+    bool modeIsP2P4 = readPin(P2P4_MODE_SELECT_PIN) == 0;
+    bool transportIsP2P4 = get_transport() == TRANSPORT_P2P4;
+
+    if (modeIsP2P4 && transportIsP2P4)
     {
         rgb_matrix_set_color(25, RGB_GREEN);
+    }
+    else if (modeIsP2P4)
+    {
+        rgb_matrix_set_color(25, RGB_YELLOW);
+    }
+    else if (transportIsP2P4)
+    {
+        rgb_matrix_set_color(25, RGB_RED);
     }
 
     if ((host_keyboard_led_state().caps_lock && !shift_pressed) ||
