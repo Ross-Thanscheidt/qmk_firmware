@@ -51,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TAB,          KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,    KC_I,         KC_O,      KC_P,         KC_LBRC,    KC_RBRC,      KC_BSLS,  KC_DEL,   KC_END,   KC_PGDN,
      LT(NAV,KC_CAPS), KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,    KC_K,         KC_L,      KC_SCLN,      KC_QUOT,                  KC_ENT,
      KC_LSFT,                   KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,    KC_M,         KC_COMM,   KC_DOT,       KC_SLSH,                  KC_RSFT,            KC_UP,
-     KC_LCTL,         KC_LOPTN, KC_LCMMD,                               KC_SPC,                                     KC_RCMMD,     KC_ROPTN,   MO(MAC_FN),   KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+     KC_LCTL,         KC_LOPTN, KC_LCMMD,                               KC_SPC,                                     KC_RCMMD,     KC_ROPTN,   MO(MAC_FN),   KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RIGHT),
 
 [MAC_FN] = LAYOUT_tkl_ansi(
      _______,         KC_BRID,  KC_BRIU,  KC_MCTL,  KC_LPAD,  RGB_VAD,  RGB_VAI,  KC_MPRV, KC_MPLY,      KC_MNXT,   KC_MUTE,      KC_VOLD,    KC_VOLU,                _______,  _______,  RGB_TOG,
@@ -67,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TAB,          KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,    KC_I,         KC_O,      KC_P,         KC_LBRC,    KC_RBRC,      KC_BSLS,  KC_DEL,   KC_END,   KC_PGDN,
      LT(NAV,KC_CAPS), KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,    KC_K,         KC_L,      KC_SCLN,      KC_QUOT,                  KC_ENT,
      KC_LSFT,                   KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,    KC_M,         KC_COMM,   KC_DOT,       KC_SLSH,                  KC_RSFT,            KC_UP,
-     KC_LCTL,         KC_LGUI,  KC_LALT,                                KC_SPC,                                     KC_RALT,      KC_APP,     MO(WIN_FN),   KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+     KC_LCTL,         KC_LGUI,  KC_LALT,                                KC_SPC,                                     KC_RALT,      KC_APP,     MO(WIN_FN),   KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RIGHT),
 
 [WIN_FN] = LAYOUT_tkl_ansi(
      _______,         KC_BRID,  KC_BRIU,  KC_TASK,  KC_FILE,  RGB_VAD,  RGB_VAI,  KC_MPRV, KC_MPLY,      KC_MNXT,   KC_MUTE,      KC_VOLD,    KC_VOLU,                CKC_TERM, KC_MYCM,  KC_CALC,
@@ -89,8 +89,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______,         _______,  _______,  _______,  _______,  _______,  _______,  _______, _______,      _______,   _______,      _______,    _______,                _______,  _______,  _______,
      _______,         CKC_WT1,  CKC_WT2,  CKC_WT3,  CKC_WT4,  CKC_WT5,  CKC_WT6,  CKC_WT7, CKC_WT8,      CKC_WT9,   CKC_WT0,      _______,    _______,      _______,  _______,  _______,  _______,
      _______,         KC_HOME,  KC_UP,    KC_PGUP,  _______,  _______,  _______,  _______, KC_INS,       _______,   _______,      _______,    _______,      _______,  _______,  _______,  _______,
-     _______,         KC_LEFT,  KC_DOWN,  KC_RGHT,   KC_PGDN,  _______,  KC_LEFT,  KC_DOWN, KC_UP,        KC_RGHT,   _______,      _______,                  _______,
-     _______,                   KC_END,   KC_DEL,   KC_PGDN,   _______,  KC_PGUP,  _______, _______,      _______,   _______,      _______,                  _______,            _______,
+     _______,         KC_LEFT,  KC_DOWN,  KC_RIGHT, KC_PGDN,  _______,  KC_LEFT,  KC_DOWN, KC_UP,        KC_RIGHT,  _______,      _______,                  _______,
+     _______,                   KC_END,   KC_DEL,   KC_PGDN,  _______,  KC_PGUP,  _______, _______,      _______,   _______,      _______,                  _______,            _______,
      _______,         _______,  _______,                                _______,                                    _______,      _______,    _______,      _______,  _______,  _______,  _______)
 
 };
