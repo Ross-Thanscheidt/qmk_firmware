@@ -218,8 +218,8 @@ const uint16_t PROGMEM work_email_combo[] = {KC_E, KC_2, COMBO_END};
 const uint16_t PROGMEM personal_site_combo[] = {KC_E, KC_3, COMBO_END};
 
 combo_t key_combos[] = {
-    [EM_WORK_EMAIL] = COMBO_ACTION(work_email_combo),
     [EM_PERSONAL_EMAIL] = COMBO_ACTION(personal_email_combo),
+    [EM_WORK_EMAIL] = COMBO_ACTION(work_email_combo),
     [EM_PERSONAL_SITE] = COMBO_ACTION(personal_site_combo)
 };
 
