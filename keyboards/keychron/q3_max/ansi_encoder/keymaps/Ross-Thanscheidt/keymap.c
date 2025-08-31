@@ -227,16 +227,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 enum combo_events {
     EM_PERSONAL_EMAIL,
     EM_WORK_EMAIL,
+    EM_PERSONAL_SITE,
     COMBO_LENGTH
 };
 const uint16_t COMBO_LEN = COMBO_LENGTH;
 
 const uint16_t PROGMEM personal_email_combo[] = {KC_E, KC_1, COMBO_END};
 const uint16_t PROGMEM work_email_combo[] = {KC_E, KC_2, COMBO_END};
+const uint16_t PROGMEM personal_site_combo[] = {KC_E, KC_3, COMBO_END};
 
 combo_t key_combos[] = {
+    [EM_PERSONAL_EMAIL] = COMBO_ACTION(personal_email_combo),
     [EM_WORK_EMAIL] = COMBO_ACTION(work_email_combo),
-    [EM_PERSONAL_EMAIL] = COMBO_ACTION(personal_email_combo)
+    [EM_PERSONAL_SITE] = COMBO_ACTION(personal_site_combo)
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
@@ -251,6 +254,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         case EM_WORK_EMAIL:
             if (pressed) {
                 SEND_STRING("me@work.com");
+            }
+            break;
+
+        case EM_PERSONAL_SITE:
+            if (pressed) {
+                SEND_STRING("site.com");
             }
             break;
     }
