@@ -207,6 +207,7 @@ bool led_matrix_indicators_user(void) {
 }
 #endif
 
+#ifndef DISABLE_FACTORY_TEST
 #ifdef RGB_MATRIX_ENABLE
 bool rgb_matrix_indicators_user(void) {
     if (factory_reset_ind_state) {
@@ -231,6 +232,7 @@ bool rgb_matrix_indicators_user(void) {
 
     return true;
 }
+#endif
 #endif
 
 void factory_reset_task(void) {
