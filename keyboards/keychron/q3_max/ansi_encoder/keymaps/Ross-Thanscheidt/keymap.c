@@ -272,6 +272,7 @@ void keyboard_post_init_user(void) {
 bool rgb_matrix_indicators_user(void)
 {
 
+    // Current Layer
     for (uint8_t layer = 0; layer < DYNAMIC_KEYMAP_LAYER_COUNT; layer++)
     {
         if (layer_state_cmp(layer_state | default_layer_state, layer)) {
@@ -279,6 +280,7 @@ bool rgb_matrix_indicators_user(void)
         }
     }
 
+    // Transport Mode - USB
     bool modeIsBT = readPin(BT_MODE_SELECT_PIN) == 0;
     bool transportIsBT = get_transport() == TRANSPORT_BLUETOOTH;
 
@@ -295,6 +297,7 @@ bool rgb_matrix_indicators_user(void)
         rgb_matrix_set_color(23, RGB_RED);
     }
 
+    // Tranport Mode - 2.4GHz
     bool modeIsP2P4 = readPin(P2P4_MODE_SELECT_PIN) == 0;
     bool transportIsP2P4 = get_transport() == TRANSPORT_P2P4;
 
@@ -311,6 +314,7 @@ bool rgb_matrix_indicators_user(void)
         rgb_matrix_set_color(25, RGB_RED);
     }
 
+    // Caps Lock
     if ((host_keyboard_led_state().caps_lock && !shift_pressed) ||
         (!host_keyboard_led_state().caps_lock && shift_pressed) ||
         is_caps_word_on())
@@ -331,6 +335,7 @@ bool rgb_matrix_indicators_user(void)
         }
     }
 
+    // Numeric Keypad Mode
     if (get_highest_layer(layer_state | default_layer_state) == KEYPAD)
     {
         for (uint8_t row = 0; row <= MATRIX_ROWS; row++)
