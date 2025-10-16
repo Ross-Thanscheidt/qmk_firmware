@@ -251,6 +251,7 @@ void ckbt51_default_ack_handler(uint8_t *data, uint8_t len) {
     }
 }
 
+#ifndef DISABLE_KB_BLUETOOTH_PRE_TASK
 void bluetooth_pre_task(void) {
     static uint8_t mode = 1;
 
@@ -261,6 +262,7 @@ void bluetooth_pre_task(void) {
         }
     }
 }
+#endif
 #endif
 
 void battery_calculte_voltage(uint16_t value) {

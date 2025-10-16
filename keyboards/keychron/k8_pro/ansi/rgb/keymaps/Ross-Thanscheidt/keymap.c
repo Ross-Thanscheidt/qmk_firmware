@@ -15,6 +15,9 @@
  */
 
 #include QMK_KEYBOARD_H
+#ifdef DISABLE_KB_BLUETOOTH_PRE_TASK
+#    include "transport.h"
+#endif
 
 enum layers{
   MAC_BASE,
@@ -39,7 +42,9 @@ enum custom_keycodes {
     CKC_WT7,
     CKC_WT8,
     CKC_WT9,
-    CKC_WT0
+    CKC_WT0,
+    CKC_BT,
+    CKC_USB
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -55,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______,         KC_BRID,  KC_BRIU,  KC_MCTL,  KC_LPAD,  RGB_VAD,  RGB_VAI,  KC_MPRV, KC_MPLY,      KC_MNXT,   KC_MUTE,      KC_VOLD,    KC_VOLU,                _______,  _______,  RGB_TOG,
      _______,         BT_HST1,  BT_HST2,  BT_HST3,  CKC_MAC,  RGB_M_P,  RGB_M_B,  RGB_M_R, RGB_M_SW,     RGB_M_SN,  RGB_M_K,      RGB_M_X,    RGB_M_G,      _______,  _______,  _______,  _______,
      RGB_TOG,         RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______, _______,      _______,   DF(WIN_BASE), _______,    _______,      _______,  _______,  _______,  _______,
-     _______,         RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______, _______,      _______,   _______,      _______,                  _______,
+     _______,         RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______, _______,      _______,   CKC_BT,       CKC_USB,                  _______,
      _______,                   _______,  _______,  _______,  _______,  BAT_LVL,  NK_TOGG, KC_NO,        _______,   _______,      _______,                  _______,            RGB_TOG,
      _______,         _______,  _______,                                _______,                                    _______,      _______,    _______,      _______,  RGB_RMOD, RGB_TOG,  RGB_MOD),
 
@@ -71,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______,         KC_BRID,  KC_BRIU,  KC_TASK,  KC_FILE,  RGB_VAD,  RGB_VAI,  KC_MPRV, KC_MPLY,      KC_MNXT,   KC_MUTE,      KC_VOLD,    KC_VOLU,                CKC_TERM, KC_MYCM,  KC_CALC,
      _______,         BT_HST1,  BT_HST2,  BT_HST3,  CKC_PC,   RGB_M_P,  RGB_M_B,  RGB_M_R, RGB_M_SW,     RGB_M_SN,  RGB_M_K,      RGB_M_X,    RGB_M_G,      _______,  _______,  _______,  _______,
      RGB_TOG,         RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______, _______,      _______,   KC_NO,        _______,    _______,      _______,  _______,  _______,  _______,
-     _______,         RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______, _______,      _______,   _______,      _______,                  _______,
+     _______,         RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______, _______,      _______,   CKC_BT,       CKC_USB,                  _______,
      _______,                   _______,  _______,  _______,  _______,  BAT_LVL,  NK_TOGG, DF(MAC_BASE), _______,   _______,      DF(KEYPAD),               _______,            RGB_TOG,
      _______,         _______,  _______,                                _______,                                    _______,      _______,    _______,      _______,  RGB_RMOD, RGB_TOG,  RGB_MOD),
 
@@ -92,6 +97,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______,         _______,  _______,                                _______,                                    _______,      _______,    _______,      _______,  _______,  _______,  _______)
 
 };
+
+#ifdef DISABLE_KB_BLUETOOTH_PRE_TASK
+transport_t requested_transport = TRANSPORT_NONE;
+transport_t last_transport = TRANSPORT_NONE;
+#endif
 
 bool shift_pressed = false;
 bool num_lock_on = true;
@@ -198,6 +208,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_LWIN("r") SS_DELAY(500) "\%WT\% \"\%WT_0\%\"" SS_TAP(X_ENT));
             }
             break;
+
+        case CKC_BT:
+            if (record->event.pressed) {
+                requested_transport = TRANSPORT_BLUETOOTH;
+            }
+            break;
+
+        case CKC_USB:
+            if (record->event.pressed) {
+                requested_transport = TRANSPORT_USB;
+            }
+            break;
     }
 
     return true;
@@ -251,6 +273,7 @@ void keyboard_post_init_user(void) {
 bool rgb_matrix_indicators_user(void)
 {
 
+    // Current Layer
     for (uint8_t layer = 0; layer < DYNAMIC_KEYMAP_LAYER_COUNT; layer++)
     {
         if (layer_state_cmp(layer_state | default_layer_state, layer)) {
@@ -258,6 +281,24 @@ bool rgb_matrix_indicators_user(void)
         }
     }
 
+    // Transport Mode
+    bool modeIsBT = last_transport == TRANSPORT_BLUETOOTH;
+    bool transportIsBT = get_transport() == TRANSPORT_BLUETOOTH;
+
+    if (modeIsBT && transportIsBT)
+    {
+        rgb_matrix_set_color(23, RGB_GREEN);
+    }
+    else if (modeIsBT)
+    {
+        rgb_matrix_set_color(23, RGB_YELLOW);
+    }
+    else if (transportIsBT)
+    {
+        rgb_matrix_set_color(23, RGB_RED);
+    }
+
+    // Caps Lock
     if ((host_keyboard_led_state().caps_lock && !shift_pressed) ||
         (!host_keyboard_led_state().caps_lock && shift_pressed) ||
         is_caps_word_on())
@@ -278,6 +319,7 @@ bool rgb_matrix_indicators_user(void)
         }
     }
 
+    // Numeric Keypad Layer
     if (get_highest_layer(layer_state | default_layer_state) == KEYPAD)
     {
         for (uint8_t row = 0; row <= MATRIX_ROWS; row++)
@@ -315,3 +357,38 @@ bool rgb_matrix_indicators_user(void)
 
     return true;
 }
+
+#ifdef DISABLE_KB_BLUETOOTH_PRE_TASK
+void bluetooth_pre_task(void) {
+    static uint8_t     last_mode = 1;
+    static uint8_t     current_mode = 1;
+    static transport_t current_transport = TRANSPORT_NONE;
+
+    if (readPin(USB_BT_MODE_SELECT_PIN) != last_mode) {
+        if (readPin(USB_BT_MODE_SELECT_PIN) != last_mode) {
+            current_mode = readPin(USB_BT_MODE_SELECT_PIN);
+        }
+    }
+
+    if (current_mode != last_mode || requested_transport != TRANSPORT_NONE)
+    {
+        if (current_mode != last_mode)
+        {
+            current_transport = current_mode == 0 ? TRANSPORT_BLUETOOTH : TRANSPORT_USB;
+            last_mode = current_mode;
+        }
+        else
+        {
+            current_transport = requested_transport;
+        }
+
+        requested_transport = TRANSPORT_NONE;
+
+        if (current_transport != last_transport)
+        {
+            set_transport(current_transport);
+            last_transport = current_transport;
+        }
+    }
+}
+#endif
