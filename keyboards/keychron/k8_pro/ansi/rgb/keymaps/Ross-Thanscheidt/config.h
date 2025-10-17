@@ -28,5 +28,5 @@
 /* Disable the parts of factory_test that conflict with this keyboard customizations - initially rgb_matrix_indicators_user() */
 #define DISABLE_FACTORY_TEST
 
-/* Disable bluetooth_pre_task() for the keyboard so it can be defined at the keymap level */
+/* Disable bluetooth_pre_task() at the keyboard level so it can be defined at the keymap level */
 #define DISABLE_KB_BLUETOOTH_PRE_TASK

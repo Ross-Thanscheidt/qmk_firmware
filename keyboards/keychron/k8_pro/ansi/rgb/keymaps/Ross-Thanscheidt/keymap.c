@@ -99,8 +99,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 #ifdef DISABLE_KB_BLUETOOTH_PRE_TASK
-transport_t requested_transport = TRANSPORT_NONE;
-transport_t last_transport = TRANSPORT_NONE;
+void request_transport(transport_t transport);
+transport_t get_last_transport(void);
 #endif
 
 bool shift_pressed = false;
@@ -209,17 +209,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
+#ifdef DISABLE_KB_BLUETOOTH_PRE_TASK
         case CKC_BT:
             if (record->event.pressed) {
-                requested_transport = TRANSPORT_BLUETOOTH;
+                request_transport(TRANSPORT_BLUETOOTH);
             }
             break;
 
         case CKC_USB:
             if (record->event.pressed) {
-                requested_transport = TRANSPORT_USB;
+                request_transport(TRANSPORT_USB);
             }
             break;
+#endif
+
     }
 
     return true;
@@ -282,7 +285,12 @@ bool rgb_matrix_indicators_user(void)
     }
 
     // Transport Mode
-    bool modeIsBT = last_transport == TRANSPORT_BLUETOOTH;
+#ifdef DISABLE_KB_BLUETOOTH_PRE_TASK
+    bool modeIsBT = get_last_transport() == TRANSPORT_BLUETOOTH;
+#else
+    bool modeIsBT = readPin(USB_BT_MODE_SELECT_PIN) == 0;
+#endif
+
     bool transportIsBT = get_transport() == TRANSPORT_BLUETOOTH;
 
     if (modeIsBT && transportIsBT)
@@ -359,6 +367,19 @@ bool rgb_matrix_indicators_user(void)
 }
 
 #ifdef DISABLE_KB_BLUETOOTH_PRE_TASK
+transport_t requested_transport = TRANSPORT_NONE;
+transport_t last_transport = TRANSPORT_NONE;
+
+void request_transport(transport_t transport)
+{
+    requested_transport = transport;
+}
+
+transport_t get_last_transport(void)
+{
+    return last_transport;
+}
+
 void bluetooth_pre_task(void) {
     static uint8_t     last_mode = 1;
     static uint8_t     current_mode = 1;
