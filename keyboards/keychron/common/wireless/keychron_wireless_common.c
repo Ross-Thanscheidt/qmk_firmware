@@ -120,6 +120,7 @@ void keychron_wireless_common_task(void) {
     }
 }
 
+#ifndef DISABLE_KEYCHRON_COMMON_WIRELESS_PRE_TASK
 void wireless_pre_task(void) {
     static uint8_t  mode = 0;
     static uint32_t time = 0;
@@ -154,3 +155,4 @@ void wireless_pre_task(void) {
         }
     }
 }
+#endif

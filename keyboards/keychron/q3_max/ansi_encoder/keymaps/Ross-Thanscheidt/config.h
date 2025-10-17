@@ -30,3 +30,6 @@
 
 /* Disable the parts of factory_test that conflict with this keyboard customizations - initially rgb_matrix_indicators_user() */
 #define DISABLE_FACTORY_TEST
+
+/* Disable wireless_pre_task() at the Keychron Common level so it can be defined at the keymap level */
+#define DISABLE_KEYCHRON_COMMON_WIRELESS_PRE_TASK

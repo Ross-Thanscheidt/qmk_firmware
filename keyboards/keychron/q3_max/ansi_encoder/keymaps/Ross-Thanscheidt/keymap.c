@@ -42,7 +42,9 @@ enum custom_keycodes {
     CKC_WT7,
     CKC_WT8,
     CKC_WT9,
-    CKC_WT0
+    CKC_WT0,
+    CKC_BT,
+    CKC_USB
 };
 
 // clang-format off
@@ -59,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,         KC_BRID,  KC_BRIU, KC_MCTRL, KC_LNPAD, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY,      KC_MNXT,  KC_MUTE,      KC_VOLD,    KC_VOLU,      RGB_TOG,  _______,  _______, RGB_TOG,
         _______,         BT_HST1,  BT_HST2, BT_HST3,  P2P4G,    RGB_M_P, RGB_M_B, RGB_M_R, RGB_M_SW,     RGB_M_SN, RGB_M_K,      RGB_M_X,    RGB_M_G,      CKC_MAC,  _______,  _______, _______,
         RGB_TOG,         RGB_MOD,  RGB_VAI, RGB_HUI,  RGB_SAI,  RGB_SPI, _______, _______, _______,      _______,  DF(WIN_BASE), _______,    _______,      _______,  _______,  _______, _______,
-        _______,         RGB_RMOD, RGB_VAD, RGB_HUD,  RGB_SAD,  RGB_SPD, _______, _______, _______,      _______,  _______,      _______,                  _______,
+        _______,         RGB_RMOD, RGB_VAD, RGB_HUD,  RGB_SAD,  RGB_SPD, _______, _______, _______,      _______,  CKC_BT,       CKC_USB,                  _______,
         _______,                   _______, _______,  _______,  _______, BAT_LVL, NK_TOGG, KC_NO,        _______,  _______,      _______,                  _______,            RGB_TOG,
         _______,         _______,  _______,                              _______,                                  _______,      _______,    _______,      _______,  RGB_RMOD, RGB_TOG, RGB_MOD),
 
@@ -75,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,         KC_BRID,  KC_BRIU, KC_TASK,  KC_FILE,  RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY,      KC_MNXT,  KC_MUTE,      KC_VOLD,    KC_VOLU,      RGB_TOG,  CKC_TERM, KC_MYCM, KC_CALC,
         _______,         BT_HST1,  BT_HST2, BT_HST3,  P2P4G,    RGB_M_P, RGB_M_B, RGB_M_R, RGB_M_SW,     RGB_M_SN, RGB_M_K,      RGB_M_X,    RGB_M_G,      CKC_PC,   _______,  _______, _______,
         RGB_TOG,         RGB_MOD,  RGB_VAI, RGB_HUI,  RGB_SAI,  RGB_SPI, _______, _______, _______,      _______,  KC_NO,        _______,    _______,      _______,  _______,  _______, _______,
-        _______,         RGB_RMOD, RGB_VAD, RGB_HUD,  RGB_SAD,  RGB_SPD, _______, _______, _______,      _______,  _______,      _______,                  _______,
+        _______,         RGB_RMOD, RGB_VAD, RGB_HUD,  RGB_SAD,  RGB_SPD, _______, _______, _______,      _______,  CKC_BT,       CKC_USB,                  _______,
         _______,                   _______, _______,  _______,  _______, BAT_LVL, NK_TOGG, DF(MAC_BASE), _______,  _______,      DF(KEYPAD),               _______,            RGB_TOG,
         _______,         _______,  _______,                              _______,                                  _______,      _______,    _______,      _______,  RGB_RMOD, RGB_TOG, RGB_MOD),
 
@@ -108,6 +110,11 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [NAV]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI)},
 };
 #endif // ENCODER_MAP_ENABLE
+
+#ifdef DISABLE_KEYCHRON_COMMON_WIRELESS_PRE_TASK
+void request_transport(transport_t transport);
+transport_t get_last_transport(void);
+#endif
 
 bool shift_pressed = false;
 bool num_lock_on = true;
@@ -219,6 +226,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
+#ifdef DISABLE_KEYCHRON_COMMON_WIRELESS_PRE_TASK
+        case CKC_BT:
+            if (record->event.pressed) {
+                request_transport(TRANSPORT_BLUETOOTH);
+            }
+            break;
+
+        case CKC_USB:
+            if (record->event.pressed) {
+                request_transport(TRANSPORT_USB);
+            }
+            break;
+#endif
+
     }
 
     return true;
@@ -281,7 +302,12 @@ bool rgb_matrix_indicators_user(void)
     }
 
     // Transport Mode - USB
+#ifdef DISABLE_KEYCHRON_COMMON_WIRELESS_PRE_TASK
+    bool modeIsBT = get_last_transport() == TRANSPORT_BLUETOOTH;
+#else
     bool modeIsBT = readPin(BT_MODE_SELECT_PIN) == 0;
+#endif
+
     bool transportIsBT = get_transport() == TRANSPORT_BLUETOOTH;
 
     if (modeIsBT && transportIsBT)
@@ -297,8 +323,13 @@ bool rgb_matrix_indicators_user(void)
         rgb_matrix_set_color(23, RGB_RED);
     }
 
-    // Tranport Mode - 2.4GHz
+    // Transport Mode - 2.4GHz
+#ifdef DISABLE_KEYCHRON_COMMON_WIRELESS_PRE_TASK
+    bool modeIsP2P4 = get_last_transport() == TRANSPORT_P2P4;
+#else
     bool modeIsP2P4 = readPin(P2P4_MODE_SELECT_PIN) == 0;
+#endif
+
     bool transportIsP2P4 = get_transport() == TRANSPORT_P2P4;
 
     if (modeIsP2P4 && transportIsP2P4)
@@ -373,3 +404,88 @@ bool rgb_matrix_indicators_user(void)
 
     return true;
 }
+
+#ifdef DISABLE_KEYCHRON_COMMON_WIRELESS_PRE_TASK
+transport_t requested_transport = TRANSPORT_NONE;
+transport_t last_transport = TRANSPORT_NONE;
+transport_t current_transport = TRANSPORT_NONE;
+uint8_t last_mode = 0;
+
+void request_transport(transport_t transport)
+{
+    requested_transport = transport;
+}
+
+transport_t get_last_transport(void)
+{
+    return last_transport;
+}
+
+void determine_current_transport(void)
+{
+    static uint8_t current_mode = 0;
+
+    current_mode = readPin(BT_MODE_SELECT_PIN) << 1 | readPin(P2P4_MODE_SELECT_PIN);
+
+    if (current_mode != last_mode || requested_transport != TRANSPORT_NONE)
+    {
+        if (current_mode != last_mode)
+        {
+            switch (current_mode) {
+                case 0x01:
+                    current_transport = TRANSPORT_BLUETOOTH;
+                    break;
+                case 0x02:
+                    current_transport = TRANSPORT_P2P4;
+                    break;
+                case 0x03:
+                    current_transport = TRANSPORT_USB;
+                    break;
+                default:
+                    break;
+            }
+
+            last_mode = current_mode;
+        }
+        else
+        {
+            current_transport = requested_transport;
+        }
+
+        requested_transport = TRANSPORT_NONE;
+    }
+}
+
+void wireless_pre_task(void)
+{
+    static uint32_t time = 0;
+
+    if (time == 0) {
+        determine_current_transport();
+
+        if (current_transport != last_transport)
+        {
+            time = timer_read32();
+        }
+    }
+
+    if ((time && timer_elapsed32(time) > 100) || get_transport() == TRANSPORT_NONE) {
+        time = 0;
+
+        if ((readPin(BT_MODE_SELECT_PIN) << 1 | readPin(P2P4_MODE_SELECT_PIN)) == last_mode && requested_transport == TRANSPORT_NONE)
+        {
+            set_transport(current_transport);
+            last_transport = current_transport;
+        }
+        else
+        {
+            determine_current_transport();
+
+            if (current_transport != last_transport)
+            {
+                time = timer_read32();
+            }
+        }
+    }
+}
+#endif
