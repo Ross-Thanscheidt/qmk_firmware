@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,         KC_BRID,  KC_BRIU, KC_MCTRL, KC_LNPAD, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY,      KC_MNXT,  KC_MUTE,      KC_VOLD,    KC_VOLU,      RGB_TOG,  _______,  _______, RGB_TOG,
         _______,         BT_HST1,  BT_HST2, BT_HST3,  P2P4G,    RGB_M_P, RGB_M_B, RGB_M_R, RGB_M_SW,     RGB_M_SN, RGB_M_K,      RGB_M_X,    RGB_M_G,      CKC_MAC,  _______,  _______, _______,
         RGB_TOG,         RGB_MOD,  RGB_VAI, RGB_HUI,  RGB_SAI,  RGB_SPI, _______, _______, _______,      _______,  DF(WIN_BASE), _______,    _______,      _______,  _______,  _______, _______,
-        _______,         RGB_RMOD, RGB_VAD, RGB_HUD,  RGB_SAD,  RGB_SPD, _______, _______, _______,      CKC_P2P4, CKC_BT,       CKC_USB,                  _______,
+        _______,         RGB_RMOD, RGB_VAD, RGB_HUD,  RGB_SAD,  RGB_SPD, _______, _______, _______,      CKC_BT,   CKC_USB,      CKC_P2P4,                 _______,
         _______,                   _______, _______,  _______,  _______, BAT_LVL, NK_TOGG, KC_NO,        _______,  _______,      _______,                  _______,            RGB_TOG,
         _______,         _______,  _______,                              _______,                                  _______,      _______,    _______,      _______,  RGB_RMOD, RGB_TOG, RGB_MOD),
 
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,         KC_BRID,  KC_BRIU, KC_TASK,  KC_FILE,  RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY,      KC_MNXT,  KC_MUTE,      KC_VOLD,    KC_VOLU,      RGB_TOG,  CKC_TERM, KC_MYCM, KC_CALC,
         _______,         BT_HST1,  BT_HST2, BT_HST3,  P2P4G,    RGB_M_P, RGB_M_B, RGB_M_R, RGB_M_SW,     RGB_M_SN, RGB_M_K,      RGB_M_X,    RGB_M_G,      CKC_PC,   _______,  _______, _______,
         RGB_TOG,         RGB_MOD,  RGB_VAI, RGB_HUI,  RGB_SAI,  RGB_SPI, _______, _______, _______,      _______,  KC_NO,        _______,    _______,      _______,  _______,  _______, _______,
-        _______,         RGB_RMOD, RGB_VAD, RGB_HUD,  RGB_SAD,  RGB_SPD, _______, _______, _______,      CKC_P2P4, CKC_BT,       CKC_USB,                  _______,
+        _______,         RGB_RMOD, RGB_VAD, RGB_HUD,  RGB_SAD,  RGB_SPD, _______, _______, _______,      CKC_BT,   CKC_USB,      CKC_P2P4,                 _______,
         _______,                   _______, _______,  _______,  _______, BAT_LVL, NK_TOGG, DF(MAC_BASE), _______,  _______,      DF(KEYPAD),               _______,            RGB_TOG,
         _______,         _______,  _______,                              _______,                                  _______,      _______,    _______,      _______,  RGB_RMOD, RGB_TOG, RGB_MOD),
 
