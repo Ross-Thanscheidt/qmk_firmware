@@ -247,6 +247,7 @@ bool process_caps_word(uint16_t keycode, keyrecord_t* record) {
     return true;
 }
 
+#ifndef DISABLE_QUANTUM_CAPS_WORD_PRESS_USER
 __attribute__((weak)) bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
         // Keycodes that continue Caps Word, with shift applied.
@@ -266,3 +267,4 @@ __attribute__((weak)) bool caps_word_press_user(uint16_t keycode) {
             return false; // Deactivate Caps Word.
     }
 }
+#endif // DISABLE_QUANTUM_CAPS_WORD_PRESS_USER

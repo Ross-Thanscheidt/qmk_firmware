@@ -228,6 +228,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
+#ifdef DISABLE_QUANTUM_CAPS_WORD_PRESS_USER
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        // Keycodes that continue Caps Word, with shift applied.
+        case KC_A ... KC_Z:
+            add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
+            return true;
+
+        case KC_LCTL:
+        case KC_RCTL:
+            return false;
+
+        default:
+            return true;  // Continue Caps Word, without shifting.
+            // return false;  // Deactivate Caps Word.
+    }
+};
+#endif // DISABLE_QUANTUM_CAPS_WORD_PRESS_USER
+
 enum combo_events {
     EM_PERSONAL_EMAIL,
     EM_WORK_EMAIL,
