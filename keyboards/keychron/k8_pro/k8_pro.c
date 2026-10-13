@@ -262,7 +262,7 @@ void bluetooth_pre_task(void) {
         }
     }
 }
-#endif
+#endif // DISABLE_KB_BLUETOOTH_PRE_TASK
 #endif
 
 void battery_calculte_voltage(uint16_t value) {
